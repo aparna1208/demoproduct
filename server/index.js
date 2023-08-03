@@ -110,6 +110,23 @@ const productModel = new mongoose.model('product register',productStructure)
     response.send ({'result':data})
 })
 
+//Delete
+api.delete('/deleteproduct/:id', async (req, res) => {
+  const productId = req.params.id;
+
+  try {
+    // Find the product by ID and remove it
+    await productModel.findByIdAndRemove(productId);
+
+    res.json({ message: 'Product deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to delete product' });
+  }
+});
+
+
+
 //mongoose connection and database creation
 main().catch(err => console.log(err));
 async function main() {
